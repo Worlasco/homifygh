@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Homify Ghana - Home Services</title>
     <style>
+        /* ALL YOUR EXISTING STYLES REMAIN EXACTLY THE SAME */
         * {
             margin: 0;
             padding: 0;
@@ -545,6 +546,10 @@
             background: linear-gradient(135deg, var(--success) 0%, #218838 100%);
             color: white;
         }
+        .modal-header.job-booking {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
         .modal-header h2 {
             margin-bottom: 0.5rem;
         }
@@ -642,6 +647,13 @@
         }
         .modal-btn.payment:hover {
             background: #218838;
+        }
+        .modal-btn.job-booking {
+            background: var(--primary);
+            color: white;
+        }
+        .modal-btn.job-booking:hover {
+            background: var(--primary-dark);
         }
         .modal-footer-text {
             text-align: center;
@@ -1948,6 +1960,93 @@
         </div>
     </div>
 
+    <!-- NEW: Job Booking Modal (Describe Your Job) -->
+    <div id="jobBookingModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header job-booking">
+                <span class="modal-close" onclick="closeJobBookingModal()">×</span>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">📋</div>
+                <h2>Describe Your Job</h2>
+                <p id="booking-provider-name">Book with Provider</p>
+            </div>
+            <div class="modal-body">
+                <form id="jobBookingForm">
+                    <div class="form-group">
+                        <label>Job Title</label>
+                        <input type="text" id="job-title" placeholder="e.g., Kitchen Sink Repair" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Service Type</label>
+                        <select id="job-service-type" required>
+                            <option value="">Select service type</option>
+                            <option value="plumbing">🔧 Plumbing</option>
+                            <option value="electrical">⚡ Electrical</option>
+                            <option value="cleaning">🧹 Cleaning</option>
+                            <option value="carpentry">🪚 Carpentry</option>
+                            <option value="painting">🎨 Painting</option>
+                            <option value="appliance">🔌 Appliance Repair</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Detailed Job Description</label>
+                        <textarea id="job-description" rows="5" placeholder="Please describe your job in detail. Include information like:
+- What needs to be fixed/done?
+- When do you need it done?
+- Any specific requirements?
+- Approximate size/scope of work" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="job-location" placeholder="e.g., Abeka Junction, Accra" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Preferred Date</label>
+                        <input type="date" id="job-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Preferred Time</label>
+                        <select id="job-time" required>
+                            <option value="">Select time</option>
+                            <option value="morning">Morning (8am - 12pm)</option>
+                            <option value="afternoon">Afternoon (12pm - 4pm)</option>
+                            <option value="evening">Evening (4pm - 8pm)</option>
+                            <option value="anytime">Anytime</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload Photos (Optional)</label>
+                        <div class="file-upload" onclick="document.getElementById('job-photos').click()">
+                            <input type="file" id="job-photos" multiple accept="image/*">
+                            <span>📸 Click to upload photos of the job</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Estimated Budget (GHS)</label>
+                        <input type="number" id="job-budget" placeholder="e.g., 500" min="1">
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="job-terms" required>
+                        <label for="job-terms">I confirm that the job details are accurate and I agree to the terms of service</label>
+                    </div>
+                    
+                    <button type="submit" class="modal-btn job-booking" onclick="submitJobBooking(event)">✓ Submit Job Request</button>
+                </form>
+                
+                <div class="modal-footer-text">
+                    <p>Your job will be sent directly to the provider</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Info Modal -->
     <div id="infoModal" class="modal-overlay">
         <div class="modal-container">
@@ -2105,6 +2204,7 @@
         let bookedProviders = {};
         let currentView = 'home';
         let currentProvider = null;
+        let bookingProvider = null; // For job booking modal
         let chatMessages = [];
         let providerData = {
             name: "Your Business",
@@ -2229,6 +2329,115 @@
         function handleChatKeyPress(event) {
             if (event.key === 'Enter') {
                 sendChatMessage();
+            }
+        }
+
+        // NEW: Job Booking Functions
+        function openJobBookingModal(provider) {
+            if (!currentUserType || currentUserType !== 'customer') {
+                showInfoModal('Login Required', 'Please login as a customer to book a service.');
+                setTimeout(() => {
+                    openCustomerLogin();
+                }, 1500);
+                return;
+            }
+            
+            bookingProvider = provider;
+            document.getElementById('booking-provider-name').textContent = `Book with ${provider.name} - ${provider.service}`;
+            
+            // Pre-fill service type based on provider
+            const serviceSelect = document.getElementById('job-service-type');
+            if (provider.service.toLowerCase().includes('plumbing')) serviceSelect.value = 'plumbing';
+            else if (provider.service.toLowerCase().includes('electrical')) serviceSelect.value = 'electrical';
+            else if (provider.service.toLowerCase().includes('clean')) serviceSelect.value = 'cleaning';
+            else if (provider.service.toLowerCase().includes('carpent')) serviceSelect.value = 'carpentry';
+            else if (provider.service.toLowerCase().includes('painting')) serviceSelect.value = 'painting';
+            else if (provider.service.toLowerCase().includes('appliance')) serviceSelect.value = 'appliance';
+            
+            // Set default date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dateStr = tomorrow.toISOString().split('T')[0];
+            document.getElementById('job-date').value = dateStr;
+            
+            document.getElementById('jobBookingModal').classList.add('active');
+        }
+
+        function closeJobBookingModal() {
+            document.getElementById('jobBookingModal').classList.remove('active');
+            document.getElementById('jobBookingForm').reset();
+            bookingProvider = null;
+        }
+
+        function submitJobBooking(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('job-title').value;
+            const serviceType = document.getElementById('job-service-type').value;
+            const description = document.getElementById('job-description').value;
+            const location = document.getElementById('job-location').value;
+            const date = document.getElementById('job-date').value;
+            const time = document.getElementById('job-time').value;
+            const budget = document.getElementById('job-budget').value;
+            const terms = document.getElementById('job-terms').checked;
+            
+            if (!title || !serviceType || !description || !location || !date || !time || !terms) {
+                showInfoModal('Error', 'Please fill in all required fields');
+                return;
+            }
+            
+            if (!bookingProvider) {
+                showInfoModal('Error', 'No provider selected');
+                return;
+            }
+            
+            // Format time for display
+            let timeDisplay = '';
+            if (time === 'morning') timeDisplay = 'Morning (8am - 12pm)';
+            else if (time === 'afternoon') timeDisplay = 'Afternoon (12pm - 4pm)';
+            else if (time === 'evening') timeDisplay = 'Evening (4pm - 8pm)';
+            else timeDisplay = 'Anytime';
+            
+            // Format date
+            const dateObj = new Date(date);
+            const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Create job object
+            const newJob = {
+                id: sampleJobs.length + 1,
+                customer: "You (Customer)",
+                service: serviceType.charAt(0).toUpperCase() + serviceType.slice(1),
+                provider: bookingProvider.name,
+                providerId: bookingProvider.id,
+                title: title,
+                location: location,
+                date: `${formattedDate}, ${timeDisplay}`,
+                status: "pending",
+                description: description,
+                budget: budget ? `GHS ${budget}` : 'Not specified',
+                timestamp: new Date().toISOString()
+            };
+            
+            // Add to sample jobs (in real app, this would be sent to a server)
+            sampleJobs.push(newJob);
+            
+            // Mark provider as booked
+            bookedProviders[bookingProvider.id] = true;
+            
+            // Close modal and show success
+            closeJobBookingModal();
+            
+            showInfoModal('✅ Job Request Sent!', 
+                `Your job "${title}" has been sent to ${bookingProvider.name}. They will review your request and contact you soon.`);
+            
+            // Refresh provider display if currently viewing providers
+            if (currentView === 'providers') {
+                displayProviders(providers);
             }
         }
 
@@ -2703,7 +2912,8 @@
                 
                 ${currentUserType === 'customer' ? `
                     <div style="margin-top: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                        <button class="btn btn-primary" style="padding: 1rem 3rem;" onclick="bookProvider(${provider.id})">
+                        <!-- UPDATED: Book Now button opens job description modal -->
+                        <button class="btn btn-primary" style="padding: 1rem 3rem;" onclick="openJobBookingModal(providers.find(p => p.id === ${provider.id}))">
                             Book ${provider.name} Now
                         </button>
                         <button class="btn btn-outline" style="padding: 1rem 3rem;" onclick="showChatButton(providers.find(p => p.id === ${provider.id})); toggleChat();">
@@ -2739,8 +2949,9 @@
                 if (isCustomer) {
                     actionButtons = `
                         <div class="provider-contact">
+                            <!-- UPDATED: Book Now button opens job description modal -->
                             <button class="contact-btn book-btn ${isBooked ? 'booked' : ''}" 
-                                    onclick="event.stopPropagation(); ${isBooked ? '' : 'bookProvider(' + provider.id + ')'}"
+                                    onclick="event.stopPropagation(); ${isBooked ? '' : 'openJobBookingModal(providers.find(p => p.id === ' + provider.id + '))'}"
                                     ${isBooked ? 'disabled' : ''}>
                                 ${isBooked ? '✓ Booked' : 'Book Now'}
                             </button>
@@ -2960,12 +3171,17 @@
 
         function closeAllModals() {
             document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+            closeJobBookingModal(); // Also close job booking modal
         }
 
         // Initialize
         window.onload = function() {
             displayReviews();
             showHome();
+            
+            // Set min date for job date picker to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('job-date').min = today;
         };
 
         window.onclick = function(e) { 
