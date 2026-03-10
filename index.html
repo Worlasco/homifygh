@@ -1,0 +1,2980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Homify Ghana - Home Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0A6847;
+            --primary-dark: #064e35;
+            --secondary: #F3B33D;
+            --accent: #DA121A;
+            --dark: #2D2D2D;
+            --light: #F5F5F5;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --white: #ffffff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --hero-bg-image: url('Back .jpg');
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+            text-decoration: none;
+        }
+        .logo-main {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+        .logo-main span {
+            color: var(--secondary);
+        }
+        .logo-sub {
+            font-size: 0.8rem;
+            color: var(--gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .logo-white .logo-main {
+            color: var(--white);
+        }
+        .logo-white .logo-sub {
+            color: rgba(255,255,255,0.8);
+        }
+        .logo-footer .logo-main {
+            color: var(--secondary);
+            font-size: 1.8rem;
+        }
+        .logo-footer .logo-main span {
+            color: var(--white);
+        }
+
+        .navbar {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        .btn-warning {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        .btn-warning:hover {
+            background: #e69f2e;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            background: linear-gradient(rgba(10, 104, 71, 0.85), rgba(6, 78, 53, 0.9)), var(--hero-bg-image);
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 6rem 2rem;
+        }
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .services {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .review-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .review-info h4 {
+            margin-bottom: 0.2rem;
+        }
+        .review-stars {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        .review-text {
+            color: var(--gray);
+            font-style: italic;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        .review-date {
+            color: var(--light-gray);
+            font-size: 0.8rem;
+            text-align: right;
+        }
+
+        /* Chat Box Styles */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 99;
+            border: none;
+        }
+        .chat-button:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+        .chat-button.hidden {
+            display: none;
+        }
+        .chat-box {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: none;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .chat-box.active {
+            display: block;
+        }
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-header h3 {
+            font-size: 1.1rem;
+        }
+        .chat-close {
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+        }
+        .chat-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .chat-messages {
+            height: 250px;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+        .chat-message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+        }
+        .chat-message.sent {
+            margin-left: auto;
+        }
+        .message-content {
+            padding: 0.8rem;
+            border-radius: 15px;
+            background: var(--light-gray);
+            display: inline-block;
+        }
+        .chat-message.sent .message-content {
+            background: var(--primary);
+            color: white;
+        }
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 0.2rem;
+            text-align: right;
+        }
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            gap: 0.5rem;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        .chat-input-area input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .chat-send {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .chat-send:hover {
+            background: var(--primary-dark);
+        }
+
+        .portal-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        .portal-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .portal-card:hover {
+            transform: translateY(-5px);
+        }
+        .portal-header.customer {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+        .portal-header.provider {
+            background: linear-gradient(135deg, var(--secondary) 0%, #e69f2e 100%);
+            color: var(--dark);
+            padding: 2rem;
+            text-align: center;
+        }
+        .portal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .portal-body {
+            padding: 2rem;
+        }
+        .portal-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .portal-features li {
+            padding: 0.5rem 0;
+        }
+
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 2rem 1rem;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        .footer-section h4 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        .footer-section a {
+            color: var(--light-gray);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+        .footer-section a:hover {
+            color: var(--secondary);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-container {
+            width: 90%;
+            max-width: 500px;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            text-align: center;
+        }
+        .modal-header.customer {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+        }
+        .modal-header.provider {
+            background: linear-gradient(135deg, var(--secondary) 0%, #e69f2e 100%);
+            color: var(--dark);
+        }
+        .modal-header.payment {
+            background: linear-gradient(135deg, var(--success) 0%, #218838 100%);
+            color: white;
+        }
+        .modal-header h2 {
+            margin-bottom: 0.5rem;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .file-upload {
+            border: 2px dashed var(--light-gray);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+        .file-upload input {
+            display: none;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .modal-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+        .modal-btn.customer {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .modal-btn.customer:hover {
+            background: var(--primary-dark);
+        }
+        .modal-btn.provider {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        .modal-btn.provider:hover {
+            background: #e69f2e;
+        }
+        .modal-btn.payment {
+            background: var(--success);
+            color: white;
+        }
+        .modal-btn.payment:hover {
+            background: #218838;
+        }
+        .modal-footer-text {
+            text-align: center;
+            color: var(--gray);
+        }
+        .modal-footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Payment Method Styles */
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .payment-method {
+            flex: 1;
+            min-width: 120px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .payment-method:hover {
+            border-color: var(--primary);
+        }
+        .payment-method.active {
+            border-color: var(--success);
+            background: #f0fff0;
+        }
+        .payment-method img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+        }
+        .payment-method span {
+            display: block;
+            font-weight: 600;
+        }
+        .payment-details {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        .amount-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .amount-input {
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .transaction-fee {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .total-amount {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            text-align: center;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+
+        /* Provider Directory Styles */
+        .provider-directory {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .directory-header {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 25px;
+            background: var(--light);
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .provider-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .provider-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .provider-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .provider-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--secondary);
+        }
+        .provider-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .provider-avatar span {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .provider-info h3 {
+            margin-bottom: 0.3rem;
+        }
+        .badge-verified {
+            background: var(--success);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+        .badge-new {
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+        .provider-body {
+            padding: 1.5rem;
+        }
+        .provider-service {
+            display: inline-block;
+            background: var(--light);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .provider-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        .provider-rating {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .view-portfolio {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Portfolio Page Styles */
+        .portfolio-page {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .portfolio-header {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .portfolio-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--secondary);
+        }
+        .portfolio-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .portfolio-avatar span {
+            font-size: 3rem;
+            color: white;
+            font-weight: bold;
+        }
+        .portfolio-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .portfolio-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        .back-btn {
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .portfolio-item {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .portfolio-item:hover {
+            transform: scale(1.05);
+        }
+        .portfolio-image {
+            height: 200px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .portfolio-details {
+            padding: 1rem;
+        }
+        .portfolio-details h4 {
+            margin-bottom: 0.5rem;
+        }
+        .portfolio-details p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        .client-rating {
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Customer View */
+        .customer-view .provider-contact {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .customer-view .contact-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .customer-view .book-btn {
+            background: var(--primary);
+            color: white;
+        }
+        .customer-view .book-btn.booked {
+            background: var(--success);
+            cursor: default;
+        }
+        .customer-view .call-btn {
+            background: var(--light);
+            color: var(--dark);
+        }
+        .customer-view .call-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* Provider Dashboard Styles */
+        .provider-dashboard {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--secondary) 0%, #e69f2e 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .dashboard-header h1 {
+            font-size: 2rem;
+        }
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            color: var(--gray);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .dashboard-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .job-item {
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+        .job-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .job-status {
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-accepted {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-completed {
+            background: #cce5ff;
+            color: #004085;
+        }
+        .job-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .job-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+        .accept-btn {
+            background: var(--success);
+            color: white;
+        }
+        .decline-btn {
+            background: var(--accent);
+            color: white;
+        }
+        .complete-btn {
+            background: var(--primary);
+            color: white;
+        }
+        .accepted-badge {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .provider-menu {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .menu-item {
+            padding: 0.8rem 1.5rem;
+            background: var(--light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: var(--primary);
+            color: white;
+        }
+        .portfolio-upload-area {
+            border: 2px dashed var(--light-gray);
+            padding: 3rem;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+        .portfolio-upload-area:hover {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+        .portfolio-grid-small {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .portfolio-thumb {
+            height: 120px;
+            background: var(--light);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .portfolio-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .delete-thumb {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255,255,255,0.9);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .auth-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem !important;
+            }
+
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .providers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .portfolio-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .chat-box {
+                width: calc(100% - 40px);
+                right: 20px;
+                bottom: 90px;
+            }
+
+            .chat-button {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .job-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .job-actions {
+                justify-content: flex-start;
+            }
+
+            .payment-methods {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .portfolio-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation with Mobile Menu -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" onclick="showHome()" class="logo">
+                <div class="logo-main">HOMIFY<span>GH</span></div>
+                <div class="logo-sub">COMPLETE REPAIRS FOR YOUR HOME</div>
+            </a>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="mobileMenu">
+                <a onclick="showSection('services'); closeMobileMenu()">Services</a>
+                <a onclick="showSection('how-it-works'); closeMobileMenu()">How It Works</a>
+                <a onclick="showSection('providers'); closeMobileMenu()">Find Providers</a>
+                <a onclick="showSection('contact'); closeMobileMenu()">Contact</a>
+                <div class="auth-buttons">
+                    <a onclick="openCustomerLogin(); closeMobileMenu()" class="btn btn-outline">Customer</a>
+                    <a onclick="openProviderLogin(); closeMobileMenu()" class="btn btn-primary">Provider Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero-section" class="hero">
+        <div class="hero-container">
+            <div>
+                <div class="logo logo-white" style="margin-bottom: 2rem;">
+                    <div class="logo-main">HOMIFY<span>GH</span></div>
+                    <div class="logo-sub">COMPLETE REPAIRS FOR YOUR HOME</div>
+                </div>
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">Quality Home Services at Your Fingertips</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Find verified and trusted professionals for all your home repair and maintenance needs in Ghana.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a onclick="checkAuthAndShow('providers')" class="btn btn-primary" style="background: var(--secondary); color: var(--dark); cursor: pointer;">Find a Provider</a>
+                    <a onclick="openProviderSignup()" class="btn btn-outline" style="border-color: var(--white); color: var(--white); cursor: pointer;">Become a Provider</a>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <div style="position: relative; display: inline-block;">
+                    <img src="Logo.png" style="max-width: 50%; border-radius: 5px;" alt="Homify Ghana">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services-section" class="services">
+        <div class="section-title">
+            <h2>Our Services</h2>
+            <p style="color: var(--gray);">Professional services for every home need</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card" onclick="checkAuthAndFilter('plumbing')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔧</div>
+                <h3>Plumbing</h3>
+                <p style="color: var(--gray);">Leak repairs, installations</p>
+            </div>
+            <div class="service-card" onclick="checkAuthAndFilter('electrical')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+                <h3>Electrical</h3>
+                <p style="color: var(--gray);">Wiring and repairs</p>
+            </div>
+            <div class="service-card" onclick="checkAuthAndFilter('cleaning')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🧹</div>
+                <h3>Cleaning</h3>
+                <p style="color: var(--gray);">Deep cleaning</p>
+            </div>
+            <div class="service-card" onclick="checkAuthAndFilter('carpentry')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🪚</div>
+                <h3>Carpentry</h3>
+                <p style="color: var(--gray);">Furniture repair</p>
+            </div>
+            <div class="service-card" onclick="checkAuthAndFilter('painting')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
+                <h3>Painting</h3>
+                <p style="color: var(--gray);">Interior & exterior</p>
+            </div>
+            <div class="service-card" onclick="checkAuthAndFilter('appliance')">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔌</div>
+                <h3>Appliance Repair</h3>
+                <p style="color: var(--gray);">Fix home appliances</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works-section" style="display: none; max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
+        <div class="section-title">
+            <h2>How It Works</h2>
+            <p style="color: var(--gray);">Get your home service in four simple steps</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;">
+            <div style="text-align: center;">
+                <div style="width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem;">1</div>
+                <h3>Sign Up/Login</h3>
+                <p style="color: var(--gray);">Create your free account</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem;">2</div>
+                <h3>Find Provider</h3>
+                <p style="color: var(--gray);">Browse verified professionals</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem;">3</div>
+                <h3>View Portfolio</h3>
+                <p style="color: var(--gray);">See their previous work</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem;">4</div>
+                <h3>Pay with Mobile Money</h3>
+                <p style="color: var(--gray);">Secure mobile money payment</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Provider Directory -->
+    <section id="providers-section" class="provider-directory" style="display: none;">
+        <div class="directory-header">
+            <h2 style="margin-bottom: 1rem;">Find Trusted Service Providers in Ghana</h2>
+            <p style="color: var(--gray); margin-bottom: 1.5rem;">Click on any provider to see their portfolio of work</p>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by name, service, or location..." onkeyup="searchProviders()">
+                <button class="btn btn-primary" onclick="searchProviders()">🔍 Search</button>
+            </div>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterByService('all')">All</button>
+                <button class="filter-btn" onclick="filterByService('plumbing')">Plumbing</button>
+                <button class="filter-btn" onclick="filterByService('electrical')">Electrical</button>
+                <button class="filter-btn" onclick="filterByService('cleaning')">Cleaning</button>
+                <button class="filter-btn" onclick="filterByService('carpentry')">Carpentry</button>
+                <button class="filter-btn" onclick="filterByService('painting')">Painting</button>
+                <button class="filter-btn" onclick="filterByService('appliance')">Appliance Repair</button>
+            </div>
+        </div>
+
+        <div id="providersGrid" class="providers-grid"></div>
+    </section>
+
+    <!-- Portfolio Page -->
+    <section id="portfolio-page" class="portfolio-page" style="display: none;"></section>
+
+    <!-- Contact Section -->
+    <section id="contact-section" style="display: none; max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
+        <div class="section-title">
+            <h2>Contact Us</h2>
+            <p style="color: var(--gray);">We're here to help 24/7</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 3rem;">
+            <div>
+                <div style="margin-bottom: 2rem;">
+                    <h3>📍 Address</h3>
+                    <p style="color: var(--gray);">Abeka Junction, Accra</p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h3>📞 Phone</h3>
+                    <p style="color: var(--gray);">+233 24 123 4567</p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h3>✉️ Email</h3>
+                    <p style="color: var(--gray);">info@homifygh.com</p>
+                </div>
+            </div>
+            <div>
+                <div style="background: var(--white); padding: 2rem; border-radius: 10px;">
+                    <h3 style="margin-bottom: 1rem;">Send us a message</h3>
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" style="width: 100%; padding: 0.8rem; border: 2px solid var(--light-gray); border-radius: 10px;"></textarea>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews-section" class="reviews-section">
+        <div class="section-title">
+            <h2>What Our Customers Say</h2>
+            <p style="color: var(--gray);">Trusted by thousands of happy customers across Ghana</p>
+        </div>
+        <div class="reviews-grid" id="reviewsGrid"></div>
+    </section>
+
+    <!-- Portal Section -->
+    <section id="portal-section" class="portal-section">
+        <div class="section-title">
+            <h2>Choose Your Portal</h2>
+            <p style="color: var(--gray);">Select the right platform for your needs</p>
+        </div>
+        <div class="portal-grid">
+            <div class="portal-card">
+                <div class="portal-header customer">
+                    <div class="portal-icon">👤</div>
+                    <h3 style="font-size: 2rem;">Customer Portal</h3>
+                    <p>Find trusted service providers</p>
+                </div>
+                <div class="portal-body">
+                    <ul class="portal-features">
+                        <li>✓ Browse verified professionals</li>
+                        <li>✓ View portfolio of past work</li>
+                        <li>✓ Book services 24/7</li>
+                        <li>✓ Track job progress</li>
+                        <li>✓ Pay with mobile money</li>
+                    </ul>
+                    <a onclick="checkAuthAndShow('providers')" class="btn btn-primary" style="width: 100%; text-align: center; cursor: pointer;">Find Providers</a>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        <a onclick="openCustomerSignup()" style="color: var(--primary); cursor: pointer;">New customer? Sign up</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="portal-card">
+                <div class="portal-header provider">
+                    <div class="portal-icon">🔧</div>
+                    <h3 style="font-size: 2rem;">Provider Portal</h3>
+                    <p>Grow your service business</p>
+                </div>
+                <div class="portal-body">
+                    <ul class="portal-features">
+                        <li>✓ Instant approval - Start today!</li>
+                        <li>✓ Upload portfolio photos</li>
+                        <li>✓ Receive job notifications</li>
+                        <li>✓ Manage your schedule</li>
+                        <li>✓ Track earnings</li>
+                    </ul>
+                    <a onclick="openProviderSignup()" class="btn btn-primary" style="width: 100%; background: var(--secondary); color: var(--dark); text-align: center; cursor: pointer;">Join as Provider</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <a onclick="showHome()" class="logo logo-footer" style="margin-bottom: 1rem; display: inline-block; cursor: pointer;">
+                    <div class="logo-main">HOMIFY<span>GH</span></div>
+                    <div class="logo-sub">COMPLETE REPAIRS FOR YOUR HOME</div>
+                </a>
+                <p style="color: var(--light-gray); margin-top: 1rem;">Connecting Ghanaian households with trusted service professionals since 2026.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a onclick="checkAuthAndShow('services')">Services</a>
+                <a onclick="checkAuthAndShow('how-it-works')">How It Works</a>
+                <a onclick="checkAuthAndShow('providers')">Find Providers</a>
+                <a onclick="showSection('contact')">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>For Customers</h4>
+                <a onclick="checkAuthAndShow('providers')">Find a Provider</a>
+                <a onclick="openCustomerSignup()">Sign Up</a>
+                <a onclick="checkAuthAndShow('how-it-works')">How It Works</a>
+                <a onclick="showSection('contact')">Support</a>
+            </div>
+            <div class="footer-section">
+                <h4>For Providers</h4>
+                <a onclick="openProviderSignup()">Join Now (Instant)</a>
+                <a onclick="openProviderLogin()">Provider Login</a>
+                <a onclick="showSection('guidelines')">Guidelines</a>
+                <a onclick="showSection('support')">Support</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <span style="font-weight: 800; color: var(--secondary);">HOMIFYGH</span>
+                <span style="color: var(--gray);">|</span>
+                <span style="font-size: 0.8rem; color: var(--light-gray);">COMPLETE REPAIRS FOR YOUR HOME</span>
+            </div>
+            <p>&copy; 2026 Homify Ghana. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Chat Button -->
+    <button class="chat-button hidden" id="chatButton" onclick="toggleChat()">💬</button>
+
+    <!-- Chat Box -->
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <h3 id="chatProviderName">Chat with Provider</h3>
+            <span class="chat-close" onclick="toggleChat()">×</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
+            <button class="chat-send" onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Provider Dashboard (Hidden by default) -->
+    <div id="provider-dashboard" class="provider-dashboard" style="display: none;">
+        <div class="dashboard-header">
+            <div>
+                <h1>Welcome, <span id="providerName">Provider</span>!</h1>
+                <p>Your service dashboard</p>
+            </div>
+            <button class="btn btn-outline" onclick="logoutProvider()" style="background: white;">Logout</button>
+        </div>
+
+        <div class="provider-menu">
+            <div class="menu-item active" onclick="switchProviderTab('overview')">Overview</div>
+            <div class="menu-item" onclick="switchProviderTab('jobs')">Job Requests</div>
+            <div class="menu-item" onclick="switchProviderTab('active')">Active Jobs</div>
+            <div class="menu-item" onclick="switchProviderTab('completed')">Completed Jobs</div>
+            <div class="menu-item" onclick="switchProviderTab('portfolio')">My Portfolio</div>
+            <div class="menu-item" onclick="switchProviderTab('settings')">Settings</div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="dashboard-section">
+            <h2>Dashboard Overview</h2>
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3>Pending Requests</h3>
+                    <div class="stat-number" id="pendingCount">3</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Jobs</h3>
+                    <div class="stat-number" id="activeCount">2</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Jobs</h3>
+                    <div class="stat-number" id="completedCount">15</div>
+                </div>
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem;">Recent Activity</h3>
+            <div id="recentJobs"></div>
+        </div>
+
+        <!-- Job Requests Tab -->
+        <div id="jobs-tab" class="dashboard-section" style="display: none;">
+            <div class="section-header">
+                <h2>New Job Requests</h2>
+                <span class="badge-new" id="requestCount">3 new</span>
+            </div>
+            <div id="jobRequestsList"></div>
+        </div>
+
+        <!-- Active Jobs Tab -->
+        <div id="active-tab" class="dashboard-section" style="display: none;">
+            <div class="section-header">
+                <h2>Your Active Jobs</h2>
+            </div>
+            <div id="activeJobsList"></div>
+        </div>
+
+        <!-- Completed Jobs Tab -->
+        <div id="completed-tab" class="dashboard-section" style="display: none;">
+            <div class="section-header">
+                <h2>Completed Jobs</h2>
+            </div>
+            <div id="completedJobsList"></div>
+        </div>
+
+        <!-- Portfolio Tab -->
+        <div id="portfolio-tab" class="dashboard-section" style="display: none;">
+            <div class="section-header">
+                <h2>My Portfolio</h2>
+                <button class="btn btn-primary" onclick="openPortfolioUpload()">+ Add New Work</button>
+            </div>
+            
+            <div class="portfolio-upload-area" onclick="document.getElementById('portfolio-upload').click()" style="display: none;" id="uploadArea">
+                <input type="file" id="portfolio-upload" multiple accept="image/*" onchange="handlePortfolioUpload()" style="display: none;">
+                <span style="font-size: 2rem;">📸</span>
+                <h3>Click to Upload Photos</h3>
+                <p style="color: var(--gray);">Showcase your best work (JPG, PNG)</p>
+            </div>
+
+            <div id="portfolioGrid" class="portfolio-grid-small">
+                <!-- Portfolio items will appear here -->
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="dashboard-section" style="display: none;">
+            <h2>Profile Settings</h2>
+            <form id="providerSettings">
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input type="text" id="settings-business" value="Your Business Name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="settings-phone" value="0244 123 456">
+                </div>
+                <div class="form-group">
+                    <label>Service Category</label>
+                    <select id="settings-service">
+                        <option>Plumbing</option>
+                        <option>Electrical</option>
+                        <option>Cleaning</option>
+                        <option>Carpentry</option>
+                        <option>Painting</option>
+                        <option>Appliance Repair</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>About Me</label>
+                    <textarea id="settings-about" rows="4">Experienced professional ready to help with your home service needs.</textarea>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveProviderSettings()">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Login Modal -->
+    <div id="customerLoginModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header customer">
+                <span class="modal-close" onclick="closeAllModals()">×</span>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">👤</div>
+                <h2>Customer Login</h2>
+                <p>Access your account to book services</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Email or Phone Number</label>
+                    <input type="text" id="customer-email" placeholder="Enter your email or phone">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="customer-password" placeholder="Enter your password">
+                </div>
+                <button class="modal-btn customer" onclick="handleCustomerLogin()">Login to Customer Account</button>
+                <div class="modal-footer-text">
+                    Don't have an account? <a onclick="openCustomerSignup()">Sign up here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Provider Login Modal -->
+    <div id="providerLoginModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header provider">
+                <span class="modal-close" onclick="closeAllModals()">×</span>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔧</div>
+                <h2>Provider Login</h2>
+                <p>Access your provider dashboard</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Email or Phone Number</label>
+                    <input type="text" id="provider-login-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="provider-login-password" placeholder="Enter your password">
+                </div>
+                <button class="modal-btn provider" onclick="handleProviderLogin()">Login to Provider Dashboard</button>
+                <div class="modal-footer-text">
+                    Don't have a provider account? <a onclick="switchToProviderSignup()">Sign up here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Signup Modal -->
+    <div id="customerSignupModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header customer">
+                <span class="modal-close" onclick="closeAllModals()">×</span>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">📝</div>
+                <h2>Create Customer Account</h2>
+                <p>Join Homify Ghana today</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="customer-signup-name" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="customer-signup-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="customer-signup-phone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="customer-signup-password" placeholder="Create a password">
+                </div>
+                <button class="modal-btn customer" onclick="handleCustomerSignup()">Create Account</button>
+                <div class="modal-footer-text">
+                    Already have an account? <a onclick="switchToCustomerLogin()">Login here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Provider Signup Modal -->
+    <div id="providerSignupModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header provider">
+                <span class="modal-close" onclick="closeAllModals()">×</span>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🚀</div>
+                <h2>Become a Provider - Instant!</h2>
+                <p>Start receiving jobs today - no waiting period</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input type="text" id="provider-business" placeholder="Enter your business name">
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="provider-name" placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="provider-email-signup" placeholder="Business email">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="provider-phone" placeholder="Contact number">
+                </div>
+                <div class="form-group">
+                    <label>Service Category</label>
+                    <select id="provider-service">
+                        <option>Select your service</option>
+                        <option>Plumbing</option>
+                        <option>Electrical</option>
+                        <option>Cleaning</option>
+                        <option>Carpentry</option>
+                        <option>Painting</option>
+                        <option>Appliance Repair</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="number" id="provider-experience" placeholder="Years of experience">
+                </div>
+                <div class="form-group">
+                    <label>Upload Profile Picture</label>
+                    <div class="file-upload" onclick="document.getElementById('profile-pic-input').click()">
+                        <input type="file" id="profile-pic-input" accept="image/*">
+                        <span>📸 Click to upload your profile picture</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Upload Certificates (Optional)</label>
+                    <div class="file-upload" onclick="document.getElementById('file-input').click()">
+                        <input type="file" id="file-input" multiple>
+                        <span>📎 Click to upload documents</span>
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" checked>
+                    <label for="terms">I agree to the terms and conditions</label>
+                </div>
+                <button class="modal-btn provider" onclick="handleInstantProviderSignup()">✓ Activate Provider Account Now</button>
+                <div class="modal-footer-text">
+                    Already have an account? <a onclick="switchToProviderLogin()">Login here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Money Payment Modal -->
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header payment">
+                <span class="modal-close" onclick="closePaymentModal()">×</span>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">💰</div>
+                <h2>Mobile Money Payment</h2>
+                <p>Enter amount to pay <span id="payment-provider-name">Provider</span></p>
+            </div>
+            <div class="modal-body">
+                <div class="payment-methods">
+                    <div class="payment-method active" onclick="selectPaymentMethod('mtn')" id="method-mtn">
+                        <span style="font-size: 2rem;">📱</span>
+                        <span>MTN Mobile Money</span>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('vodafone')" id="method-vodafone">
+                        <span style="font-size: 2rem;">📞</span>
+                        <span>Vodafone Cash</span>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('airteltigo')" id="method-airteltigo">
+                        <span style="font-size: 2rem;">📲</span>
+                        <span>AirtelTigo Money</span>
+                    </div>
+                </div>
+
+                <div class="payment-details">
+                    <div style="text-align: center; margin-bottom: 1rem;">
+                        <h3>Payment to: <span id="payment-provider-name-display">Provider Name</span></h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Amount to Pay (GHS)</label>
+                        <input type="number" id="payment-amount-input" class="amount-input" placeholder="Enter amount" min="1" step="0.01" value="100.00" oninput="updatePaymentTotal()">
+                    </div>
+                    
+                    <div class="transaction-fee" id="transaction-fee">Transaction fee: GHS 1.50</div>
+                    <div class="total-amount" id="total-amount">Total to pay: GHS 101.50</div>
+                    
+                    <div class="form-group">
+                        <label>Mobile Money Number</label>
+                        <input type="tel" id="payment-phone" placeholder="Enter your mobile money number" value="0244">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Payment Reference (Optional)</label>
+                        <input type="text" id="payment-reference" placeholder="e.g., Plumbing service">
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="payment-terms" checked>
+                        <label for="payment-terms">I confirm the payment details are correct</label>
+                    </div>
+                </div>
+
+                <button class="modal-btn payment" onclick="processPayment()" id="process-payment-btn">
+                    Pay Now with <span id="selected-network">MTN</span>
+                </button>
+                
+                <div class="modal-footer-text">
+                    <p>You will receive an SMS confirmation from your network</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header" style="background: var(--success); color: white;">
+                <span class="modal-close" onclick="closeAllModals()">×</span>
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;" id="infoIcon">✅</div>
+                <h2 id="infoModalTitle">Success</h2>
+            </div>
+            <div class="modal-body">
+                <p id="infoModalMessage" style="text-align: center; margin-bottom: 2rem;"></p>
+                <button class="modal-btn" style="background: var(--success); color: white;" onclick="closeAllModals()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Provider Data - Fixed Appliance Repair with proper portfolio items
+        // Added profilePic field to each provider
+        const providers = [
+            // Plumbing (3)
+            { id: 101, name: "Abel Aguadze", business: "Abel Plumbing Services", service: "Plumbing", serviceIcon: "🔧", location: "Accra", rating: 4.8, jobs: 342, experience: "8 years", phone: "0244 123 456", verified: true, profilePic: "bel.jpeg",
+              portfolio: [
+                { title: "🚽 Toilet & Sink Installation", description: "Modern Toilet & Sink", image: "T&S.jpg" },
+                { title: "🚰 Pipe Repair", description: "Emergency pipe repair", image: "download (4).jpg" },
+                { title: "🚿 Shower Fitting", description: "Complete shower installation", image: "SF.jpg" },
+                { title: "💧 Leak Detection", description: "Leak detection and repair", image: "LD.jpg" }
+              ] },
+            { id: 102, name: "Kofi Asare", business: "Kofi Plumbing Solutions", service: "Plumbing", serviceIcon: "🔧", location: "Kumasi", rating: 4.9, jobs: 287, experience: "6 years", phone: "0244 789 012", verified: true, profilePic: "Asare.jpg",
+              portfolio: [
+                { title: "🔧 Water Heater", description: "Water heater installation", image: "download (3).jpg" },
+                { title: "🚽 Bathroom Plumbing", description: "Full bathroom plumbing", image: "bath Room.jpg" },
+                { title: "💧 Pipe Installation", description: "New pipe installation", image: "plumbing works.jpg" },
+                { title: "🚰 Kitchen Sink", description: "Kitchen sink installation", image: "kt sink.jpg" }
+              ] },
+            { id: 103, name: "Esi Amankwah", business: "Esi Plumbing Works", service: "Plumbing", serviceIcon: "🔧", location: "Tema", rating: 4.7, jobs: 198, experience: "5 years", phone: "0244 456 789", verified: true, profilePic: "Esi.png",
+              portfolio: [
+                { title: "💧 Emergency Repairs", description: "24/7 emergency plumbing", image: "Marubini Plumbing.jpg" },
+                { title: "🚽 Toilet Fix", description: "Toilet repair and maintenance", image: "tt fix.jpg" },
+                { title: "🚰 Outdoor Plumbing", description: "Garden and outdoor plumbing", image: "out dooe.jpg" },
+                { title: "🔧 Water Pumps", description: "Water pump installation", image: "pump.jpg" }
+              ] },
+            
+            // Electrical (3)
+            { id: 201, name: "Abena Oforiwaa", business: "Abena Electricals", service: "Electrical", serviceIcon: "⚡", location: "Kumasi", rating: 5.0, jobs: 567, experience: "6 years", phone: "0205 234 567", verified: true, profilePic: "Abena.jpg",
+              portfolio: [
+                { title: "⚡ House Wiring", description: "Complete house wiring", image: "Lighting ⚡️.jpg" },
+                { title: "💡 Lighting Installation", description: "Modern lighting setup", image: "light in.jpg" },
+                { title: "🔌 Socket Repair", description: "Socket and switch repair", image: "soock.jpg" },
+                { title: "📺 TV Installation", description: "TV mounting and setup", image: "TV MOUNTING NAIROBI 0726333401.jpg" }
+              ] },
+            { id: 202, name: "Adwoa Mansah", business: "Mansah Electrical Services", service: "Electrical", serviceIcon: "⚡", location: "Accra", rating: 4.9, jobs: 412, experience: "7 years", phone: "0205 678 901", verified: true, profilePic: "Adwoa.png",
+              portfolio: [
+                { title: "⚡ Circuit Breakers", description: "Breaker panel installation", image: "circuit.jpg" },
+                { title: "💡 Ceiling Fans", description: "Fan installation and repair", image: "ceiling fan.jpg" },
+                { title: "🔌 Power Points", description: "Power point installation", image: "point.jpg" },
+                { title: "📡 Satellite Installation", description: "Satellite TV installation", image: "siteli.jpg" }
+              ] },
+            { id: 203, name: "Kojo Asante", business: "Kojo Electric", service: "Electrical", serviceIcon: "⚡", location: "Tema", rating: 4.8, jobs: 334, experience: "5 years", phone: "0205 345 678", verified: true, profilePic: "Kojo.jpg",
+              portfolio: [
+                { title: "⚡ Generator Wiring", description: "Generator connection", image: "gen wire.jpg" },
+                { title: "💡 Security Lights", description: "Security lighting installation", image: "selight.jpg" },
+                { title: "🔌 Rewiring", description: "Complete house rewiring", image: "electrical engineering.jpg" },
+                { title: "📺 Home Theater", description: "Home theater setup", image: "hometheater.jpg" }
+              ] },
+                        
+            // Cleaning (2)
+            { id: 301, name: "Akua Serwaa", business: "Serwaa Cleaning Services", service: "Cleaning", serviceIcon: "🧹", location: "Accra", rating: 4.7, jobs: 892, experience: "4 years", phone: "0247 456 789", verified: true, profilePic: "Akua.jpg",
+              portfolio: [
+                { title: "🧹 Deep Cleaning", description: "Deep cleaning service", image: "deep.jpg" },
+                { title: "🏠 Office Cleaning", description: "Office and commercial", image: "3 Quick Cleaning Tips for Boss Women.jpg" },
+                { title: "🧼 Carpet Wash", description: "Professional carpet cleaning", image: "wash carpet (2).jpg" },
+                { title: "✨ Window Cleaning", description: "Window and glass cleaning", image: "window clean.jpg" }
+              ] },
+            { id: 302, name: "Daniel Okoh", business: "Okoh Clean Masters", service: "Cleaning", serviceIcon: "🧹", location: "Kumasi", rating: 4.8, jobs: 654, experience: "5 years", phone: "0247 567 890", verified: true, profilePic: "Daniel.jpg",
+              portfolio: [
+                { title: "🏢 Commercial Cleaning", description: "Large commercial spaces", image: "commercial cleaners.jpg" },
+                { title: "🧹 Post-Construction", description: "Post-build clean up", image: "commer.jpg" },
+                { title: "🧼 Upholstery", description: "Furniture upholstery cleaning", image: "Sofa set cleaning.jpg" },
+                { title: "🧹 Floor Waxing", description: "Floor wax and polish", image: "Cabrera Cleaning.jpg" }
+              ] },
+                
+            // Carpentry (2)
+            { id: 401, name: "Ekow Quansah", business: "Quansah Carpentry Works", service: "Carpentry", serviceIcon: "🪚", location: "Tema", rating: 4.9, jobs: 289, experience: "12 years", phone: "0268 345 678", verified: true, profilePic: "Ekow.jpg",
+              portfolio: [
+                { title: "🪚 Custom Furniture", description: "Custom furniture making", image: "funi.png" },
+                { title: "🚪 Door Installation", description: "Door installation and repair", image: "door.jpg" },
+                { title: "🪑 Cabinet Making", description: "Kitchen cabinets", image: "cabi.jpg" },
+                { title: "🔨 Wood Repairs", description: "Furniture wood repair", image: "wood.jpg" }
+              ] },
+            { id: 402, name: "Kojo Asante", business: "Asante Carpentry", service: "Carpentry", serviceIcon: "🪚", location: "Cape Coast", rating: 4.7, jobs: 167, experience: "10 years", phone: "0242 901 234", verified: true, profilePic: "Kojo0.jpg",
+              portfolio: [
+                { title: "🪚 Kitchen Cabinets", description: "Custom kitchen cabinets", image: "kitchen cab.jpg" },
+                { title: "🚪 Window Frames", description: "Window frame making", image: "window fix.jpg" },
+                { title: "🪑 Chair Repair", description: "Chair restoration", image: "chair re.png" },
+                { title: "🔨 Deck Building", description: "Outdoor deck construction", image: "decking.jpg" }
+              ] },
+                  
+            // Painting (2)
+            { id: 501, name: "Yaw Boateng", business: "Yaw Painting & Decor", service: "Painting", serviceIcon: "🎨", location: "Takoradi", rating: 4.6, jobs: 178, experience: "5 years", phone: "0279 567 890", verified: true, profilePic: "Yaw.jpg",
+              portfolio: [
+                { title: "🎨 Interior Painting", description: "Interior wall painting", image: "PAINTING & RENOVATION.jpg" },
+                { title: "🏠 Exterior Painting", description: "Exterior house painting", image: "ex painting.jpg" },
+                { title: "🖌️ Wallpaper", description: "Wallpaper installation", image: "wallpaper.jpg" },
+                { title: "🎨 Texture Finish", description: "Textured wall finish", image: "wall t.jpg" }
+              ] },
+            { id: 502, name: "John Amankwah", business: "John Painting Services", service: "Painting", serviceIcon: "🎨", location: "Accra", rating: 4.8, jobs: 234, experience: "6 years", phone: "0279 678 901", verified: true, profilePic: "John.png",
+              portfolio: [
+                { title: "🎨 Commercial Painting", description: "Office and retail painting", image: "commeepp.jpg" },
+                { title: "🏠 House Painting", description: "Full house painting", image: "full house p.jpg" },
+                { title: "🖌️ Ceiling Paint", description: "Ceiling painting", image: "ceiling painting.jpg" },
+                { title: "🎨 Color Consulting", description: "Professional color advice", image: "color.jpg" }
+              ] },
+                                  
+            // Appliance Repair (2) 
+            { id: 601, name: "Stephen Mansah", business: "Mansah Appliance Repair", service: "Appliance Repair", serviceIcon: "🔌", location: "Kumasi", rating: 4.9, jobs: 456, experience: "7 years", phone: "0201 678 901", verified: true, profilePic: "Stephen.png",
+              portfolio: [
+                { title: "❄️ Fridge Repair", description: "Refrigerator compressor replacement", image: "Refrigerator Repair.jpg" },
+                { title: "🧊 AC Service", description: "Air conditioner gas refill", image: "ac repai.jpg" },
+                { title: "🧺 Washing Machine", description: "Washer drum repair", image: "Washing Machine.jpg" },
+                { title: "🔥 Oven Repair", description: "Oven heating element replacement", image: "oven repair.jpg" }
+              ] },
+            { id: 602, name: "Kwame Asare", business: "Kwame Appliance Services", service: "Appliance Repair", serviceIcon: "🔌", location: "Accra", rating: 4.8, jobs: 389, experience: "6 years", phone: "0201 789 012", verified: true, profilePic: "Kwame0.png",
+              portfolio: [
+                { title: "❄️ Freezer Repair", description: "Deep freezer thermostat fix", image: "deep freezer.png" },
+                { title: "🧊 AC Installation", description: "Split AC installation", image: "ac repair.jpg" },
+                { title: "🧺 Dryer Repair", description: "Clothes dryer heating issue", image: "dryer repair.jpg" },
+                { title: "🔥 Microwave Fix", description: "Microwave not heating repair", image: "microwave.jpg" }
+              ] },
+           
+        ];
+
+        // Reviews Data
+        const reviews = [
+            { id: 1, name: "Ama Serwaa", location: "Accra", rating: 5, comment: "Kwame did an excellent job fixing our plumbing. Very professional and arrived on time. Highly recommend!", date: "2 days ago", avatar: "AS" },
+            { id: 2, name: "Kwabena Asante", location: "Kumasi", rating: 5, comment: "The electrical work was perfect. Abena knew exactly what to do and fixed all our issues quickly. Very reasonable prices.", date: "1 week ago", avatar: "KA" },
+            { id: 3, name: "Esi Mensah", location: "Tema", rating: 4, comment: "Great cleaning service! My house has never been cleaner. Will definitely book again for my next deep cleaning.", date: "3 days ago", avatar: "EM" },
+            { id: 4, name: "Kojo Ofori", location: "Cape Coast", rating: 5, comment: "The carpentry work on my kitchen cabinets is outstanding. Ekow is truly a master of his craft. Worth every pesewa!", date: "5 days ago", avatar: "KO" },
+            { id: 5, name: "Adwoa Mansah", location: "Takoradi", rating: 5, comment: "Yaw painted our entire house and it looks amazing. Great attention to detail and very clean work.", date: "2 weeks ago", avatar: "AM" },
+            { id: 6, name: "Nana Akua", location: "Accra", rating: 4, comment: "Quick response for our appliance repair. The fridge is working perfectly now. Very satisfied with the service.", date: "1 day ago", avatar: "NA" }
+        ];
+
+        // Sample job data for provider dashboard
+        let sampleJobs = [
+            { id: 1, customer: "Ama Serwaa", service: "Plumbing", location: "Accra", date: "Today, 2:00 PM", status: "pending", description: "Kitchen sink leaking" },
+            { id: 2, customer: "Kwabena Asante", service: "Electrical", location: "Kumasi", date: "Tomorrow, 10:00 AM", status: "pending", description: "Light switch not working" },
+            { id: 3, customer: "Esi Mensah", service: "Cleaning", location: "Tema", date: "Today, 4:00 PM", status: "pending", description: "Deep cleaning for 3-bedroom house" },
+            { id: 4, customer: "Kojo Ofori", service: "Plumbing", location: "Cape Coast", date: "In Progress", status: "active", description: "Bathroom renovation" },
+            { id: 5, customer: "Adwoa Mansah", service: "Painting", location: "Takoradi", date: "In Progress", status: "active", description: "Living room painting" },
+            { id: 6, customer: "Nana Akua", service: "Appliance Repair", location: "Accra", date: "Completed yesterday", status: "completed", description: "Fridge repair" },
+            { id: 7, customer: "Yaw Boateng", service: "Carpentry", location: "Kumasi", date: "Completed 2 days ago", status: "completed", description: "Custom wardrobe" },
+            { id: 8, customer: "Akua Ofori", service: "Electrical", location: "Tema", date: "Completed 3 days ago", status: "completed", description: "House rewiring" }
+        ];
+
+        let currentUserType = null;
+        let bookedProviders = {};
+        let currentView = 'home';
+        let currentProvider = null;
+        let chatMessages = [];
+        let providerData = {
+            name: "Your Business",
+            business: "Your Business Name",
+            phone: "0244 123 456",
+            service: "Plumbing",
+            about: "Experienced professional ready to help with your home service needs.",
+            portfolio: []
+        };
+
+        // Payment variables
+        let selectedPaymentMethod = 'mtn';
+        let paymentProvider = null;
+        let paymentAmount = 100;
+
+        // Image path helper
+        const imageBasePath = "images/";
+        const defaultImage = "images/placeholder.jpg";
+
+        function getImagePath(imagePath) {
+            return imagePath;
+        }
+
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.remove('active');
+        }
+
+        // Display reviews
+        function displayReviews() {
+            const grid = document.getElementById('reviewsGrid');
+            grid.innerHTML = reviews.map(review => {
+                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                return `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">${review.avatar}</div>
+                            <div class="review-info">
+                                <h4>${review.name}</h4>
+                                <p style="color: var(--gray); font-size: 0.9rem;">📍 ${review.location}</p>
+                            </div>
+                        </div>
+                        <div class="review-stars">${stars}</div>
+                        <p class="review-text">"${review.comment}"</p>
+                        <div class="review-date">${review.date}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Chat functions
+        function showChatButton(provider) {
+            currentProvider = provider;
+            const chatButton = document.getElementById('chatButton');
+            chatButton.classList.remove('hidden');
+            document.getElementById('chatProviderName').textContent = `Chat with ${provider.name}`;
+        }
+
+        function hideChatButton() {
+            const chatButton = document.getElementById('chatButton');
+            chatButton.classList.add('hidden');
+            const chatBox = document.getElementById('chatBox');
+            chatBox.classList.remove('active');
+            currentProvider = null;
+        }
+
+        function toggleChat() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.classList.toggle('active');
+            if (chatBox.classList.contains('active')) {
+                displayChatMessages();
+            }
+        }
+
+        function displayChatMessages() {
+            const messagesDiv = document.getElementById('chatMessages');
+            messagesDiv.innerHTML = chatMessages.map(msg => `
+                <div class="chat-message ${msg.type}">
+                    <div class="message-content">${msg.text}</div>
+                    <div class="message-time">${msg.time}</div>
+                </div>
+            `).join('');
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message && currentProvider) {
+                const newMessage = {
+                    type: 'sent',
+                    text: message,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                };
+                chatMessages.push(newMessage);
+                
+                // Simulate provider response after 1 second
+                setTimeout(() => {
+                    const response = {
+                        type: 'received',
+                        text: `Thank you for your message! ${currentProvider.name} will respond shortly.`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    };
+                    chatMessages.push(response);
+                    displayChatMessages();
+                }, 1000);
+                
+                displayChatMessages();
+                input.value = '';
+                
+                showInfoModal('Message Sent!', `Your message has been sent to ${currentProvider.name}. They will respond soon.`);
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        // Payment Functions
+        function openPaymentModal(provider) {
+            if (!currentUserType || currentUserType !== 'customer') {
+                showInfoModal('Login Required', 'Please login as a customer to make a payment.');
+                setTimeout(() => {
+                    openCustomerLogin();
+                }, 1500);
+                return;
+            }
+            
+            paymentProvider = provider;
+            document.getElementById('payment-provider-name').textContent = provider.name;
+            document.getElementById('payment-provider-name-display').textContent = provider.name;
+            
+            // Set default amount
+            paymentAmount = 100;
+            document.getElementById('payment-amount-input').value = paymentAmount;
+            
+            updatePaymentTotal();
+            
+            document.getElementById('paymentModal').classList.add('active');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+        }
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Update active state
+            document.getElementById('method-mtn').classList.remove('active');
+            document.getElementById('method-vodafone').classList.remove('active');
+            document.getElementById('method-airteltigo').classList.remove('active');
+            document.getElementById(`method-${method}`).classList.add('active');
+            
+            // Update button text
+            let networkName = 'MTN';
+            if (method === 'vodafone') networkName = 'Vodafone';
+            else if (method === 'airteltigo') networkName = 'AirtelTigo';
+            document.getElementById('selected-network').textContent = networkName;
+            
+            updatePaymentTotal();
+        }
+
+        function updatePaymentTotal() {
+            const amount = parseFloat(document.getElementById('payment-amount-input').value) || 0;
+            paymentAmount = amount;
+            
+            let fee = 0;
+            if (selectedPaymentMethod === 'mtn') fee = 1.50;
+            else if (selectedPaymentMethod === 'vodafone') fee = 1.00;
+            else if (selectedPaymentMethod === 'airteltigo') fee = 1.25;
+            
+            const total = amount + fee;
+            
+            document.getElementById('transaction-fee').textContent = `Transaction fee: GHS ${fee.toFixed(2)}`;
+            document.getElementById('total-amount').textContent = `Total to pay: GHS ${total.toFixed(2)}`;
+        }
+
+        function processPayment() {
+            const amount = parseFloat(document.getElementById('payment-amount-input').value);
+            const phone = document.getElementById('payment-phone').value;
+            const reference = document.getElementById('payment-reference').value;
+            const terms = document.getElementById('payment-terms').checked;
+            
+            if (!amount || amount <= 0) {
+                showInfoModal('Error', 'Please enter a valid amount');
+                return;
+            }
+            
+            if (!phone || phone.length < 10) {
+                showInfoModal('Error', 'Please enter a valid mobile money number');
+                return;
+            }
+            
+            if (!terms) {
+                showInfoModal('Error', 'Please confirm the payment details');
+                return;
+            }
+            
+            // Calculate total with fee
+            let fee = 0;
+            if (selectedPaymentMethod === 'mtn') fee = 1.50;
+            else if (selectedPaymentMethod === 'vodafone') fee = 1.00;
+            else if (selectedPaymentMethod === 'airteltigo') fee = 1.25;
+            const total = amount + fee;
+            
+            // Simulate payment processing
+            showInfoModal('Processing Payment', 'Please wait while we process your payment...');
+            
+            setTimeout(() => {
+                closePaymentModal();
+                showInfoModal('✅ Payment Successful!', 
+                    `You have successfully paid GHS ${amount.toFixed(2)} to ${paymentProvider.name}. Total with fee: GHS ${total.toFixed(2)}. A confirmation SMS has been sent to ${phone}.`);
+                
+                // Add to booked providers
+                bookedProviders[paymentProvider.id] = true;
+                
+                // Create a new job in provider dashboard
+                const newJob = {
+                    id: sampleJobs.length + 1,
+                    customer: "You",
+                    service: paymentProvider.service,
+                    location: "Your Location",
+                    date: "Just now",
+                    status: "pending",
+                    description: `Payment of GHS ${amount.toFixed(2)} received for ${paymentProvider.service} service - ${reference || 'No reference'}`
+                };
+                sampleJobs.push(newJob);
+                
+            }, 2000);
+        }
+
+        // Provider Dashboard Functions
+        function showProviderDashboard() {
+            currentUserType = 'provider';
+            
+            // Hide all main content sections
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('services-section').style.display = 'none';
+            document.getElementById('how-it-works-section').style.display = 'none';
+            document.getElementById('providers-section').style.display = 'none';
+            document.getElementById('portfolio-page').style.display = 'none';
+            document.getElementById('contact-section').style.display = 'none';
+            document.getElementById('portal-section').style.display = 'none';
+            document.getElementById('reviews-section').style.display = 'none';
+            
+            // Hide chat button in provider dashboard
+            hideChatButton();
+            
+            // Show provider dashboard
+            const dashboard = document.getElementById('provider-dashboard');
+            dashboard.style.display = 'block';
+            
+            // Update provider name
+            document.getElementById('providerName').textContent = providerData.name;
+            
+            // Load dashboard data
+            loadDashboardData();
+        }
+
+        function loadDashboardData() {
+            // Update stats
+            document.getElementById('pendingCount').textContent = sampleJobs.filter(j => j.status === 'pending').length;
+            document.getElementById('activeCount').textContent = sampleJobs.filter(j => j.status === 'active').length;
+            document.getElementById('completedCount').textContent = sampleJobs.filter(j => j.status === 'completed').length;
+            document.getElementById('requestCount').textContent = sampleJobs.filter(j => j.status === 'pending').length + ' new';
+            
+            // Load recent jobs
+            const recentJobs = sampleJobs.slice(0, 3);
+            document.getElementById('recentJobs').innerHTML = recentJobs.map(job => {
+                let statusClass = '';
+                let statusText = job.status;
+                if (job.status === 'pending') statusClass = 'status-pending';
+                else if (job.status === 'active') statusClass = 'status-accepted';
+                else if (job.status === 'completed') statusClass = 'status-completed';
+                
+                return `
+                    <div class="job-item">
+                        <div class="job-header">
+                            <h4>${job.service} - ${job.customer}</h4>
+                            <span class="job-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <p>${job.description}</p>
+                        <p style="color: var(--gray); margin-top: 0.5rem;">📍 ${job.location} | 🕒 ${job.date}</p>
+                    </div>
+                `;
+            }).join('');
+            
+            // Load job requests
+            const pendingJobs = sampleJobs.filter(j => j.status === 'pending');
+            document.getElementById('jobRequestsList').innerHTML = pendingJobs.map(job => `
+                <div class="job-item">
+                    <div class="job-header">
+                        <h4>${job.service} - ${job.customer}</h4>
+                        <span class="job-status status-pending">New Request</span>
+                    </div>
+                    <div class="job-details">
+                        <p><strong>📍 Location:</strong> ${job.location}</p>
+                        <p><strong>🕒 Requested:</strong> ${job.date}</p>
+                        <p><strong>📝 Description:</strong> ${job.description}</p>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn accept-btn" onclick="acceptJob(${job.id})">✓ Accept</button>
+                        <button class="btn decline-btn" onclick="declineJob(${job.id})">✗ Decline</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Load active jobs
+            const activeJobs = sampleJobs.filter(j => j.status === 'active');
+            document.getElementById('activeJobsList').innerHTML = activeJobs.map(job => `
+                <div class="job-item">
+                    <div class="job-header">
+                        <h4>${job.service} - ${job.customer}</h4>
+                        <span class="job-status status-accepted">✓ Accepted</span>
+                    </div>
+                    <div class="job-details">
+                        <p><strong>📍 Location:</strong> ${job.location}</p>
+                        <p><strong>🕒 Started:</strong> ${job.date}</p>
+                        <p><strong>📝 Description:</strong> ${job.description}</p>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn complete-btn" onclick="completeJob(${job.id})">✓ Mark as Complete</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Load completed jobs
+            const completedJobs = sampleJobs.filter(j => j.status === 'completed');
+            document.getElementById('completedJobsList').innerHTML = completedJobs.map(job => `
+                <div class="job-item">
+                    <div class="job-header">
+                        <h4>${job.service} - ${job.customer}</h4>
+                        <span class="job-status status-completed">✓ Completed</span>
+                    </div>
+                    <div class="job-details">
+                        <p><strong>📍 Location:</strong> ${job.location}</p>
+                        <p><strong>🕒 Completed:</strong> ${job.date}</p>
+                        <p><strong>📝 Description:</strong> ${job.description}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Load portfolio
+            loadPortfolio();
+        }
+
+        function switchProviderTab(tab) {
+            // Update menu active state
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hide all tabs
+            document.getElementById('overview-tab').style.display = 'none';
+            document.getElementById('jobs-tab').style.display = 'none';
+            document.getElementById('active-tab').style.display = 'none';
+            document.getElementById('completed-tab').style.display = 'none';
+            document.getElementById('portfolio-tab').style.display = 'none';
+            document.getElementById('settings-tab').style.display = 'none';
+            
+            // Show selected tab
+            document.getElementById(tab + '-tab').style.display = 'block';
+            
+            // Special handling for portfolio tab
+            if (tab === 'portfolio') {
+                loadPortfolio();
+            }
+        }
+
+        function acceptJob(jobId) {
+            // Find and update job status
+            const job = sampleJobs.find(j => j.id === jobId);
+            if (job) {
+                job.status = 'active';
+                showInfoModal('Job Accepted ✓', `You have accepted the job from ${job.customer}. Contact them to confirm details.`);
+                loadDashboardData(); // Refresh all data
+            }
+        }
+
+        function declineJob(jobId) {
+            const job = sampleJobs.find(j => j.id === jobId);
+            if (job) {
+                // Remove from pending jobs
+                sampleJobs = sampleJobs.filter(j => j.id !== jobId);
+                showInfoModal('Job Declined', `You have declined the job from ${job.customer}.`);
+                loadDashboardData(); // Refresh all data
+            }
+        }
+
+        function completeJob(jobId) {
+            const job = sampleJobs.find(j => j.id === jobId);
+            if (job) {
+                job.status = 'completed';
+                job.date = 'Completed just now';
+                showInfoModal('Job Completed ✓', `Congratulations! You have completed the job for ${job.customer}.`);
+                loadDashboardData(); // Refresh all data
+            }
+        }
+
+        function openPortfolioUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            uploadArea.style.display = uploadArea.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function handlePortfolioUpload() {
+            showInfoModal('Photos Uploaded', 'Your portfolio photos have been uploaded successfully!');
+            loadPortfolio();
+        }
+
+        function loadPortfolio() {
+            const portfolioGrid = document.getElementById('portfolioGrid');
+            portfolioGrid.innerHTML = providerData.portfolio.map((item, index) => `
+                <div class="portfolio-thumb">
+                    <img src="${item.image}" alt="Portfolio ${index + 1}">
+                    <span class="delete-thumb" onclick="deletePortfolioItem(${index})">×</span>
+                </div>
+            `).join('');
+            
+            // Add sample portfolio items if none exist
+            if (providerData.portfolio.length === 0) {
+                portfolioGrid.innerHTML = `
+                    <div class="portfolio-thumb" style="background: var(--light); display: flex; align-items: center; justify-content: center; color: var(--gray);">
+                        <span>No photos yet</span>
+                    </div>
+                    <div class="portfolio-thumb" style="background: var(--light); display: flex; align-items: center; justify-content: center; color: var(--gray);">
+                        <span>Click + to add</span>
+                    </div>
+                `;
+            }
+        }
+
+        function deletePortfolioItem(index) {
+            providerData.portfolio.splice(index, 1);
+            loadPortfolio();
+            showInfoModal('Item Deleted', 'Portfolio item has been removed.');
+        }
+
+        function saveProviderSettings() {
+            showInfoModal('Settings Saved', 'Your profile has been updated successfully!');
+        }
+
+        function logoutProvider() {
+            currentUserType = null;
+            document.getElementById('provider-dashboard').style.display = 'none';
+            showHome();
+            showInfoModal('Logged Out', 'You have been successfully logged out.');
+        }
+
+        // Check authentication before showing content
+        function checkAuthAndShow(section) {
+            if (!currentUserType) {
+                showInfoModal('Sign Up Required', 'Please sign up or login to access this page.');
+                setTimeout(() => {
+                    closeAllModals();
+                    openCustomerSignup();
+                }, 1500);
+            } else {
+                showSection(section);
+            }
+        }
+
+        function checkAuthAndFilter(service) {
+            if (!currentUserType) {
+                showInfoModal('Sign Up Required', 'Please sign up or login to view providers.');
+                setTimeout(() => {
+                    closeAllModals();
+                    openCustomerSignup();
+                }, 1500);
+            } else {
+                filterProviders(service);
+            }
+        }
+
+        function showHome() {
+            currentView = 'home';
+            hideChatButton();
+            
+            // Hide provider dashboard if visible
+            document.getElementById('provider-dashboard').style.display = 'none';
+            
+            document.getElementById('hero-section').style.display = 'block';
+            document.getElementById('services-section').style.display = 'block';
+            document.getElementById('how-it-works-section').style.display = 'none';
+            document.getElementById('providers-section').style.display = 'none';
+            document.getElementById('portfolio-page').style.display = 'none';
+            document.getElementById('contact-section').style.display = 'none';
+            document.getElementById('portal-section').style.display = 'block';
+            document.getElementById('reviews-section').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showSection(section) {
+            if (!currentUserType && section !== 'contact' && section !== 'home') {
+                checkAuthAndShow(section);
+                return;
+            }
+            
+            currentView = section;
+            hideChatButton();
+            
+            // Hide provider dashboard if visible
+            document.getElementById('provider-dashboard').style.display = 'none';
+            
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('services-section').style.display = section === 'services' ? 'block' : 'none';
+            document.getElementById('how-it-works-section').style.display = section === 'how-it-works' ? 'block' : 'none';
+            document.getElementById('contact-section').style.display = section === 'contact' ? 'block' : 'none';
+            document.getElementById('portal-section').style.display = section === 'home' ? 'block' : 'none';
+            document.getElementById('reviews-section').style.display = section === 'home' ? 'block' : 'none';
+            
+            if (section === 'providers') {
+                document.getElementById('providers-section').style.display = 'block';
+                document.getElementById('portfolio-page').style.display = 'none';
+                displayProviders(providers);
+            } else {
+                document.getElementById('providers-section').style.display = 'none';
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function showPortfolio(providerId) {
+            if (!currentUserType) {
+                checkAuthAndShow('providers');
+                return;
+            }
+            
+            const provider = providers.find(p => p.id === providerId);
+            if (!provider) return;
+            
+            currentView = 'portfolio';
+            
+            // Hide provider dashboard if visible
+            document.getElementById('provider-dashboard').style.display = 'none';
+            
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('services-section').style.display = 'none';
+            document.getElementById('how-it-works-section').style.display = 'none';
+            document.getElementById('providers-section').style.display = 'none';
+            document.getElementById('contact-section').style.display = 'none';
+            document.getElementById('portal-section').style.display = 'none';
+            document.getElementById('reviews-section').style.display = 'none';
+            
+            const portfolioSection = document.getElementById('portfolio-page');
+            const stars = '★'.repeat(Math.floor(provider.rating)) + '☆'.repeat(5 - Math.floor(provider.rating));
+            
+            let portfolioItems = '';
+            provider.portfolio.forEach((item, index) => {
+                portfolioItems += `
+                    <div class="portfolio-item">
+                        <div class="portfolio-image">
+                            <img src="${getImagePath(item.image)}" 
+                                 alt="${item.title}"
+                                 onerror="this.src='${getImagePath(defaultImage)}'; this.onerror=null;">
+                        </div>
+                        <div class="portfolio-details">
+                            <h4>${item.title}</h4>
+                            <p>${item.description} - Completed in ${provider.location}</p>
+                            <div class="client-rating">${stars}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            portfolioSection.innerHTML = `
+                <a onclick="showSection('providers')" class="back-btn btn btn-outline">← Back to Providers</a>
+                
+                <div class="portfolio-header">
+                    <div class="portfolio-avatar">
+                        <img src="${provider.profilePic}" alt="${provider.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <span style="display: none;">${provider.name.charAt(0)}</span>
+                    </div>
+                    <div class="portfolio-info">
+                        <h1>${provider.name} ${provider.verified ? '<span class="badge-verified">✓ Verified</span>' : ''}</h1>
+                        <p style="font-size: 1.2rem;">${provider.business}</p>
+                        <div class="portfolio-stats">
+                            <div><strong>${provider.experience}</strong> Experience</div>
+                            <div><strong>${provider.jobs}+</strong> Jobs Done</div>
+                            <div><strong>${provider.rating}</strong> Rating ${stars}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 style="margin: 2rem 0 1rem;">Portfolio - Previous Work</h2>
+                <div class="portfolio-grid">
+                    ${portfolioItems}
+                </div>
+                
+                ${currentUserType === 'customer' ? `
+                    <div style="margin-top: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-primary" style="padding: 1rem 3rem;" onclick="bookProvider(${provider.id})">
+                            Book ${provider.name} Now
+                        </button>
+                        <button class="btn btn-outline" style="padding: 1rem 3rem;" onclick="showChatButton(providers.find(p => p.id === ${provider.id})); toggleChat();">
+                            💬 Message Provider
+                        </button>
+                        <button class="btn btn-success" style="padding: 1rem 3rem;" onclick="openPaymentModal(providers.find(p => p.id === ${provider.id}))">
+                            💰 Pay with Mobile Money
+                        </button>
+                    </div>
+                ` : currentUserType === 'provider' ? '' : `
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <p style="color: var(--gray);">Login as customer to book and pay this provider</p>
+                        <button class="btn btn-primary" onclick="openCustomerLogin()">Login to Book</button>
+                    </div>
+                `}
+            `;
+            
+            portfolioSection.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function displayProviders(providersToShow) {
+            const grid = document.getElementById('providersGrid');
+            const isCustomer = currentUserType === 'customer';
+            
+            grid.className = 'providers-grid ' + (isCustomer ? 'customer-view' : 'provider-view');
+            
+            grid.innerHTML = providersToShow.map(provider => {
+                const stars = '★'.repeat(Math.floor(provider.rating)) + '☆'.repeat(5 - Math.floor(provider.rating));
+                const isBooked = bookedProviders[provider.id];
+                
+                let actionButtons = '';
+                if (isCustomer) {
+                    actionButtons = `
+                        <div class="provider-contact">
+                            <button class="contact-btn book-btn ${isBooked ? 'booked' : ''}" 
+                                    onclick="event.stopPropagation(); ${isBooked ? '' : 'bookProvider(' + provider.id + ')'}"
+                                    ${isBooked ? 'disabled' : ''}>
+                                ${isBooked ? '✓ Booked' : 'Book Now'}
+                            </button>
+                            <button class="contact-btn call-btn" onclick="event.stopPropagation(); callProvider('${provider.phone}')">📞 Call</button>
+                            <button class="contact-btn call-btn" onclick="event.stopPropagation(); showChatButton(providers.find(p => p.id === ${provider.id})); toggleChat();">💬 Chat</button>
+                        </div>
+                    `;
+                }
+                
+                return `
+                    <div class="provider-card" onclick="showPortfolio(${provider.id})">
+                        <div class="provider-header">
+                            <div class="provider-avatar">
+                                <img src="${provider.profilePic}" alt="${provider.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <span style="display: none;">${provider.name.charAt(0)}</span>
+                            </div>
+                            <div class="provider-info">
+                                <h3>${provider.name} ${provider.verified ? '<span class="badge-verified">✓ Verified</span>' : ''}</h3>
+                                <p>${provider.business}</p>
+                            </div>
+                        </div>
+                        <div class="provider-body">
+                            <div class="provider-service">${provider.serviceIcon} ${provider.service}</div>
+                            <div class="provider-rating">${stars} ${provider.rating} (${provider.jobs} jobs)</div>
+                            <div class="provider-stats">
+                                <div class="stat">
+                                    <div class="stat-value">${provider.experience}</div>
+                                    <div class="stat-label">Experience</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">${provider.location}</div>
+                                    <div class="stat-label">Location</div>
+                                </div>
+                            </div>
+                            ${actionButtons}
+                            <div class="view-portfolio">👆 Click to view ${provider.portfolio.length} portfolio items</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterByService(service) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const filtered = service === 'all' ? providers : providers.filter(p => p.service.toLowerCase() === service.toLowerCase());
+            displayProviders(filtered);
+        }
+
+        function searchProviders() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = providers.filter(p => 
+                p.name.toLowerCase().includes(term) ||
+                p.service.toLowerCase().includes(term) ||
+                p.location.toLowerCase().includes(term) ||
+                p.business.toLowerCase().includes(term)
+            );
+            displayProviders(filtered);
+        }
+
+        function filterProviders(service) {
+            if (!currentUserType) {
+                checkAuthAndShow('providers');
+                return;
+            }
+            
+            showSection('providers');
+            const filtered = providers.filter(p => p.service.toLowerCase() === service.toLowerCase());
+            displayProviders(filtered);
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.toLowerCase().includes(service.toLowerCase())) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function bookProvider(id) {
+            bookedProviders[id] = true;
+            showInfoModal('Booking Confirmed!', `You have successfully booked ${providers.find(p => p.id === id).name}. They will contact you shortly.`);
+            displayProviders(providers);
+        }
+
+        function callProvider(phone) {
+            alert(`Calling ${phone}... (Demo)`);
+        }
+
+        // Provider Signup
+        function handleInstantProviderSignup() {
+            const business = document.getElementById('provider-business')?.value;
+            const name = document.getElementById('provider-name')?.value;
+            const email = document.getElementById('provider-email-signup')?.value;
+            const phone = document.getElementById('provider-phone')?.value;
+            const service = document.getElementById('provider-service')?.value;
+            const experience = document.getElementById('provider-experience')?.value;
+            const profilePic = document.getElementById('profile-pic-input')?.files[0];
+            
+            if (business && name && email && phone && service && experience) {
+                providerData = {
+                    name: name,
+                    business: business,
+                    phone: phone,
+                    service: service,
+                    about: `Experienced ${service.toLowerCase()} professional with ${experience} years of experience.`,
+                    profilePic: profilePic ? URL.createObjectURL(profilePic) : null,
+                    portfolio: []
+                };
+                
+                closeAllModals();
+                showInfoModal('✅ INSTANT APPROVAL!', 'Your provider account is now active! You can immediately start receiving jobs.');
+                setTimeout(() => {
+                    closeAllModals();
+                    showProviderDashboard();
+                }, 2000);
+            } else {
+                showInfoModal('Error', 'Please fill in all required fields');
+            }
+        }
+
+        // Auth Functions
+        function handleCustomerLogin() {
+            const email = document.getElementById('customer-email')?.value;
+            const password = document.getElementById('customer-password')?.value;
+            
+            if (email && password) {
+                currentUserType = 'customer';
+                closeAllModals();
+                showInfoModal('Login Successful!', 'Welcome back! Browse providers to see their work.');
+                setTimeout(() => {
+                    closeAllModals();
+                    showSection('providers');
+                }, 1500);
+            } else {
+                showInfoModal('Error', 'Please enter email and password');
+            }
+        }
+
+        function handleProviderLogin() {
+            const email = document.getElementById('provider-login-email')?.value;
+            const password = document.getElementById('provider-login-password')?.value;
+            
+            if (email && password) {
+                // In a real app, you would validate credentials here
+                closeAllModals();
+                showInfoModal('Login Successful!', 'Welcome to your provider dashboard.');
+                setTimeout(() => {
+                    closeAllModals();
+                    showProviderDashboard();
+                }, 1500);
+            } else {
+                showInfoModal('Error', 'Please enter email and password');
+            }
+        }
+
+        function handleCustomerSignup() {
+            const name = document.getElementById('customer-signup-name')?.value;
+            const email = document.getElementById('customer-signup-email')?.value;
+            const phone = document.getElementById('customer-signup-phone')?.value;
+            const password = document.getElementById('customer-signup-password')?.value;
+            
+            if (name && email && phone && password) {
+                closeAllModals();
+                showInfoModal('Account Created!', 'Your customer account has been created successfully! You can now browse providers.');
+                setTimeout(() => {
+                    closeAllModals();
+                    currentUserType = 'customer';
+                    showSection('providers');
+                }, 1500);
+            } else {
+                showInfoModal('Error', 'Please fill in all required fields');
+            }
+        }
+
+        // Modal switching functions
+        function openCustomerLogin() { 
+            closeAllModals(); 
+            document.getElementById('customerLoginModal').classList.add('active'); 
+        }
+
+        function openProviderLogin() { 
+            closeAllModals(); 
+            document.getElementById('providerLoginModal').classList.add('active'); 
+        }
+
+        function openCustomerSignup() { 
+            closeAllModals(); 
+            document.getElementById('customerSignupModal').classList.add('active'); 
+        }
+
+        function openProviderSignup() { 
+            closeAllModals(); 
+            document.getElementById('providerSignupModal').classList.add('active'); 
+        }
+
+        function switchToCustomerLogin() {
+            closeAllModals();
+            openCustomerLogin();
+        }
+
+        function switchToProviderLogin() {
+            closeAllModals();
+            openProviderLogin();
+        }
+
+        function switchToProviderSignup() {
+            closeAllModals();
+            openProviderSignup();
+        }
+
+        function showInfoModal(title, message) {
+            document.getElementById('infoModalTitle').textContent = title;
+            document.getElementById('infoModalMessage').textContent = message;
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+        }
+
+        // Initialize
+        window.onload = function() {
+            displayReviews();
+            showHome();
+        };
+
+        window.onclick = function(e) { 
+            if (e.target.classList.contains('modal-overlay')) closeAllModals(); 
+        };
+        
+        document.addEventListener('keydown', function(e) { 
+            if (e.key === 'Escape') closeAllModals(); 
+        });
+    </script>
+</body>
+</html>

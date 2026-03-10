@@ -1,0 +1,25 @@
+/* Color Scheme - Inspired by Ghanaian culture */
+:root {
+    --primary: #0A6847;      /* Ghana green - trust, growth */
+    --secondary: #F3B33D;    /* Ghana gold - warmth, positivity */
+    --accent: #DA121A;        /* Ghana red - urgency, alerts */
+    --dark: #2D2D2D;          /* Charcoal - text */
+    --light: #F5F5F5;         /* Off-white - backgrounds */
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    
+    /* Typography */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Open Sans', sans-serif;
+}
+
+/* Responsive Font Sizes */
+html {
+    font-size: 16px;
+}
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+}
